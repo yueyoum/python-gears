@@ -1,0 +1,66 @@
+{% extends "foundation/layout.html" %}
+
+
+{% block pagetitle %}发表新主题{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/xheditor/xheditor-1.1.13-zh-cn.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/prettify/prettify.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/js/topic.js"></script>
+{% endblock %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/static/lib/prettify/prettify.css" media="screen" />
+{% endblock %}
+
+
+{% block bodyMiddle %}
+    <div id="newTopicArea">
+        <div class="alert alert-error" id="newTopicErrorMsg" {% if not form_msg %}style="display: none;"{% endif %}>
+            <a class="close">x</a>
+            <strong>{{ form_msg }}</strong>
+        </div>
+        <div id="newTopic">
+            <form action="{{ post_to }}" method="post">{% csrf_token %}
+                <p>节点</p>
+                <div class="controls">
+                    <select id="select" name="node">
+                        <option>选择日志所属的节点</option>
+                        {% for n in nodes %}
+                            {% if n.selected %}
+                                <option selected="selected">
+                            {% else %}
+                                <option>
+                            {% endif %}
+                            {{ n.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <label>标题
+                    <input type="text" class="span6" name="title" value="{{ title_value }}" placeholder="在这儿填写标题" maxlength="100"/>
+                </label>
+                <label>内容
+                    <textarea  id="topicEditor" name="content">{{ content_value }}</textarea>
+                </abeld>
+                <input type="hidden" name="topic_id" value="{{ topic_id }}"/>
+                <button type="submit" class="btn btn-primary btn-large">post</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bodyRight %}
+    <div class="item-box">
+        <p class="item-content-head">操作提示</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <p>发帖前请选择节点，您的帖子将属于此节点</p>
+                <p>若您要选择的节点不存在，请先暂时选择 “其他” 或者任何节点，然后在 “反馈” 节点中发帖说明您想要添加的节点，等新节点添加上以后，您再将帖子的节点修改为您想要的节点即可</p>
+                <hr/>
+                <p>插入代码请点击编辑框上方倒数第三个按钮，或者 alt+c 快速插入代码编辑块</p>
+                <p>如果需要在已经插入的代码块中编辑，alt+enter在代码块中换行，ctrl+enter跳出代码块</p>
+                <p>内容至少要两个字</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

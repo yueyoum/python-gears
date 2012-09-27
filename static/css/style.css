@@ -1,0 +1,460 @@
+h2 {
+    font-size: 20px;
+    font-weight: normal;
+    color: #777;
+}
+
+body {
+    background: #EAF6FF;
+}
+
+#bodyWrap {
+    width: 980px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.navbar-custom {
+    background: #4F95BA;
+    color: #eee;
+    font-size: 16px;
+    line-height: 16px;
+    text-shadow: none;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+#nav .nav li a {
+    color: #eee!important;
+    text-shadow: none!important;
+}
+
+#nav .nav li a:hover {
+    background: #fff!important;
+    color: black!important;
+    text-shadow: none!important;
+}
+
+#bodyLeft {
+    width: 140px;
+    float: left;
+}
+
+#bodyLeft .nav li {
+    line-height: 30px; 
+}
+
+
+.body-left-amount-num {
+    color: #aaa;
+    font-weight: bold;
+}
+
+#bodyLeftHead {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+#bodyLeftHead div.float-left {
+    margin-right: 10px;
+}
+
+#bodyMiddle {
+    float: left;
+    width: 640px;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+
+#bodyRight {
+    width: 197px;
+    float: left;
+}
+
+#eventDiv {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+#eventDiv h3 {
+    font-size: 16px;
+    font-weight: normal;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+#eventDiv ul li {
+    color: #999;
+    font-size: 13px;
+    line-height: 32px;
+}
+
+#eventDiv ul li span {
+    color: #666;
+}
+
+#eventDiv div.float-right span {
+    color: #999;
+    margin-right: 10px;
+}
+
+.padding-left-right-10 {
+    padding: 0 10px 0 10px;
+}
+
+.index-topic-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.index-topic-avatar {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin: 0 10px 0 0;
+    overflow: hidden;
+}
+
+.index-topic-body {
+    width: 480px;
+    float: left;
+}
+
+.index-topic-body h3 {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 14px;
+}
+
+.index-topic-body-info {
+    margin-top: 6px;
+}
+
+.index-topic-body-info span {
+    margin: 0 5px;
+}
+
+.index-topic-body-info a {
+    color: #999;
+    text-decoration: underline;
+}
+
+.index-topic-badge {
+    float: right;
+    text-align: right;
+    margin-top: 16px;
+}
+
+.index-topic-badge span {
+    background: #bbb;
+}
+
+.index-topic-edit {
+    margin: 2px;
+}
+
+.pagination {
+    margin: 30px;
+}
+
+.pagination li.active a {
+    background: #B5D7F4;
+    color: #333;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-large {
+    font-size: 30px;
+}
+
+.fade-text {
+    color: #aaa;
+}
+
+.item-box {
+    margin-bottom: 40px;
+}
+
+.item-content {
+    margin-left: 10px;
+}
+
+.item-content-head {
+    font-size: 120%;
+    padding: 6px 12px;
+    background: #B5D7F4;
+}
+
+.item-content-body li {
+    line-height: 28px;
+}
+
+.topic-reply-show {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.topic-reply-left {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin-right: 10px;
+}
+
+.topic-reply-middle {
+    float: left;
+    width: 490px;
+}
+
+.topic-reply-middle-header {
+    font-size: 12px;
+}
+
+.topic-reply-right {
+    float: right;
+    padding-top: 20px;
+}
+
+.topic-reply-right a {
+    color: #999;
+    text-decoration: none;
+}
+
+.topic-reply-right a:hover {
+    color: #999;
+}
+
+.topic-reply-right span {
+    padding: 6px!important;
+    font-size: 34px!important;
+    font-weight: bold!important;
+}
+
+.head-info {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.info-text {
+    color: #777;
+}
+
+
+.item-bar {
+    padding: 4px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.name-after-avatar {
+    padding: 6px 0 0 20px;
+}
+
+.small-text {
+    font-size: 11px;
+}
+
+#topicHead {
+    margin-bottom: 30px;
+}
+
+#topicHead h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+#topicHead p {
+    color: #999;
+    margin: 0 0 4px 0;
+}
+
+#topicHead div.topic-edit {
+    margin-top: 10px;
+}
+
+#topicHead div.topic-edit a {
+    color: #555;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+#topicContent {
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+#replyDiv {
+    width: 550px;
+}
+
+#replyDiv h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.member-page-area {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #ddd;
+}
+
+.memberinfo-left {
+    width: 100px;
+    color: #777;
+    text-align: right;
+    display: block;
+    float: left;
+    margin-right: 16px;
+}
+
+.large-info-text {
+    color: #777;
+    font-size: 16px;
+}
+
+#topicReply {
+    margin: 20px 0;
+}
+
+#registerArea {
+    margin-top: 30px;
+}
+
+#loginArea {
+    margin-top: 30px;
+}
+
+#loginBody {
+    width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+.member-area {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.member-area h3 {
+    font-size: 16px;
+    font-weight: normal;
+    color: #999;
+}
+
+.member-area ul {
+    list-style: none;
+    margin: 0 20px;
+}
+
+.member-area ul li {
+    float: left;
+    margin: 10px 16px;
+}
+
+.member-area img {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.member-area span {
+    width: 48px;
+    font-size: 8px;
+    display: block;
+    overflow: hidden;
+}
+
+.editor-insert-code {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: transparent url(/static/lib/code.gif) no-repeat;
+    margin: 0;
+}
+
+.editor-link-image {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: transparent url(/static/lib/img.gif) no-repeat;
+    margin: 0;
+}
+
+
+
+#newTopicArea {
+   width:600px;
+   margin: auto;
+}
+
+.not-found {
+    margin: 50px auto;
+    text-align: center;
+    font-size: 18px;
+}
+
+
+.node-category h3 {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: normal;
+    color: #4D9CD4;
+    background: #E0F1FF;
+}
+
+.node-nodes {
+    margin: 20px;
+    font-size: 14px;
+}
+
+.node-nodes span {
+    margin: 0 10px;
+    color: #999;
+}
+
+#footer {
+    background: #EAF6FF;
+    padding: 30px;
+    color: #777;
+}
+
+
+#renewPasswordArea {
+    padding: 20px;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+    display: inline-block;
+}

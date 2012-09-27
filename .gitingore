@@ -1,0 +1,10 @@
+*.pyc
+*.pyd
+*.swp
+*.bak
+*.tmp
+
+run/
+env/
+
+src/settings.py

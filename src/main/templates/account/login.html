@@ -1,0 +1,77 @@
+{% extends "foundation/layout.html" %}
+
+{% load i18n %}
+
+{% block pagetitle %}{% trans "login" %}{% endblock %}
+
+{% block bodyMiddle %}
+    <div id="loginArea">
+        {% if already_logged %}
+            <div class="text-center">
+                <h3>{% trans 'You have already logged' %}</h3>
+            </div>
+        {% else %}
+            {% if from_register %}
+                <div class="text-center">
+                    <h3>{% trans 'Regist success, Please login' %}</h3>
+                </div>
+                <br/>
+            {% endif %}
+            <div class="alert alert-error" id="loginErrorMsg" {% if not form_msg %}style="display: none;"{% endif %}>
+                <a class="close">x</a>
+                <strong>{{ form_msg }}</strong>
+            </div>
+            
+            <form action="" method="post" id="loginForm" class="form-horizontal">{% csrf_token %}
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label">{% trans 'Username' %}</label>
+                        <div class="controls">
+                            <input type="text" class="input-large" name="username" value="{{ username_value }}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">{% trans 'Password' %}</label>
+                        <div class="controls">
+                            <input type="password" class="input-large" name="password"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="autologin"/>{% trans 'remember me in two weeks' %}
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div>
+                            <button type="submit" class="btn btn-success btn-large">{% trans 'login' %}</button>
+                        </div>
+                        <br/>
+                        <div>
+                            <a href="{% url renewpassword %}">忘记密码呢？ 点此重置密码</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block bodyRight %}
+    <div class="item-box">
+        <p class="item-content-head">{% trans 'Welcome' %}</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <p>这是一个开放，自由的社区</p>
+                <br/>
+                <p>{% trans 'No account' %}?</p>
+                <a href="{% url register %}">
+                    <button class="btn btn-info">{% trans 'Regist' %}</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

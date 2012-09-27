@@ -1,0 +1,188 @@
+{% extends "foundation/layout.html" %}
+
+{% load i18n %}
+
+{% block pagetitle %}{{ topic.title }}{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/xheditor/xheditor-1.1.13-zh-cn.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/prettify/prettify.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/colorbox/colorbox/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/js/topic.js"></script>
+{% endblock %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/static/lib/prettify/prettify.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}/static/lib/colorbox/colorbox/colorbox.css" media="screen" />
+{% endblock %}
+
+{% block bodyMiddle %}
+<div id="topicHead">
+    <div class="padding-left-right-10">
+        <h3>{{ topic.title }}</h3>
+        <p>{{ topic.views_amount }} 次围观 | {{ topic.likes_amount }} 人喜欢</p>
+        <p>由 <a href="{% url viewmember username=topic.posted_by.username %}">{{ topic.posted_by.username }}</a> 于 <span _relative_time="{{ topic.post_time|date:'U' }}">{{ topic.post_time|date }}</span> 在 <a href="{% url viewnode node_name=topic.node.name %}">{{ topic.node.name }}</a> 中发表</p>
+        {% if topic.has_reply %}
+            <p>最后由 <a href="{% url viewmember username=topic.last_reply_member.username %}">{{ topic.last_reply_member.username }}</a> 于 <span _relative_time="{{ topic.last_reply_time|date:'U' }}">{{ topic.last_reply_time|date }}</span> 回复</p>
+        {% endif %}
+        {% if editable %}
+            <div class="topic-edit"><a href="{% url topicedit topic_id=topic.id %}">编辑</a></div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="topicContent">
+    <div class="padding-left-right-10">
+        {{ topic.content|safe }}
+        <div class="float-right text-right">
+            {% if member %}
+                {% if not editable %}
+                    {% if already_like %}
+                        <button class="btn btn-warning" id="topicLikeBtn" _action_value="0" _topic_id="{{ topic.id }}">不再喜欢</button>
+                    {% else %}
+                        <button class="btn btn-success" id="topicLikeBtn" _action_value="1" _topic_id="{{ topic.id }}">喜欢</button>
+                    {% endif %}
+                    <div class="alert alert-warning" id="topicUnlikeConfirm" style="display: none; width: 220px; text-align: left;">
+                        <a class="close">x</a>
+                        <p>
+                            确定不再喜欢这篇帖子？ <a href="#" id="topicUnlikeConfirmYes">确定</a> <a href="#" id="topicUnlikeConfirmCancel">取消</a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <button class="btn btn-success" onclick="show_login_alert()" _action_value="1" _topic_id="{{ topic.id }}">喜欢</button>
+                <div class="alert alert-warning" id="showLoginAlert" style="display: none; width: 140px; text-align: left;">
+                    <a class="close">x</a>
+                    <p>你还没有登录. <a href="{% url login %}?next={% url viewtopic topic_id=topic.id %}">登录</a></p>
+                    <p>还没有帐号? <a href="{% url register %}">注册</a></p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+
+<div class="padding-left-right-10">
+    <div class="topic-reply-head fade-text">
+        <div class="float-right">
+            <span class="fade-text">{{ topic.reply_amount }} 人评论 </span>
+            <button class="btn btn-primary" id="iWannaReplyBtn"><li class="icon-comment icon-white"></li> 回复</button>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+
+<div id="topicReply">
+    {% for r in replies %}
+        {% if forloop.last %}
+            <a name="last_reply"> </a>
+        {% endif %}
+        <div class="topic-reply-show">
+            <div class="padding-left-right-10">
+                <div class="topic-reply-left">
+                    <img src="{{ avatar_url.prefix }}{{ r.replied_by.email|to_md5 }}?s=48&d={{ avatar_url.default }}" width="48" height="48" alt="{{ r.posted_by.username }}"/>
+                </div>
+                <div class="topic-reply-middle">
+                    <div class="topic-reply-middle-header fade-text">
+                        <div class="float-left">
+                            <a href="{% url viewmember username=r.replied_by.username %}" _at="{{ r.replied_by.username }}" alt="{{ r.replied_by.username }}">{{ r.replied_by.username }}</a>
+                        </div>
+                        <div class="float-right">
+                            <span _relative_time="{{ r.reply_time|date:'U' }}">{{ r.reply_time|date }}</span>
+                        </div>
+                        <div class="clear-both"></div>
+                    </div>
+                    <div class="topic-reply-middle-body">
+                        {{ r.content|safe }}
+                    </div>
+                </div>
+                <div class="topic-reply-right">
+                    {% if member %}
+                        {% if member.username == r.replied_by.username %}
+                            <span style="color: #ddd;">{{ forloop.counter }}</span>
+                        {% else %}
+                            <a href="#"><span _reply_user="{{ r.replied_by.username }}">{{ forloop.counter }}</span></a>
+                        {% endif %}
+                    {% else %}
+                        <span style="color: #ddd;">{{ forloop.counter }}</span>
+                    {% endif %}
+                </div>
+                <div class="clear-both"></div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<a name="reply"> </a>
+<div id="replyDiv" class="padding-left-right-10">
+    <h3>Leave a reply</h3>
+    {% if member %}
+        <div class="alert alert-error" id="replyErrorMsg" {% if not reply_msg %}style="display: none;"{% endif %}>
+            <a class="close">x</a>
+            <strong>
+                {% if reply_msg %}
+                    {{ reply_msg }}
+                {% else %}
+                    {% trans 'content need more than 2 characters' %}
+                {% endif %}
+            </strong>
+        </div>
+        <form action="" method="post">{% csrf_token %}
+        <fieldset>
+            <p><textarea id="replyEditor" name="content">{{ reply_value }}</textarea></p>
+            <p><button class="btn btn-primary btn-large" id="replyBtn"><li class="icon-comment icon-white"></li> {% trans 'Reply' %}</button></p>
+        </fieldset>
+        </form>
+    {% else %}
+        {% trans 'You are not logged yet' %}, <a href="{% url login %}?next={% url viewtopic topic_id=topic.id %}"><button class="btn btn-info">{% trans 'Login' %}</button></a>
+        {% trans 'No account' %}? <a href="{% url register %}"><button class="btn btn-success">{% trans 'Register' %}</button></a>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block bodyRight %}
+    <div class="item-box">
+        <p class="item-content-head">{% trans 'Author' %}</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <div><img src="{{ avatar_url.prefix }}{{ topic.posted_by.email|to_md5 }}?s=58&d={{ avatar_url.default }}" width="58" height="58" alt="{{ topic.posted_by.username }}" /></div>
+                <hr/>
+                <p><a href="{% url viewmember username=topic.posted_by.username %}">{{ topic.posted_by.username }}</a></p>
+                <p>{% trans 'posts amount' %}: {{ topic.posted_by.post_amount }}</p>
+                <p>{% trans 'likes amount' %}: {{ topic.posted_by.likes_amount }}</p>
+                <p>{% trans 'honor' %}: {{ topic.posted_by.honor }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="item-box">
+        <p class="item-content-head">{% trans 'Topics of author' %}</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <ul class="nav">
+                    {% for i in this_member_topics %}
+                        <li>
+                            <a href="{% url viewtopic topic_id=i.id %}">{{ i.title|truncatechinese }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    {{ block.super }}
+    
+    <div class="item-box">
+        <p class="item-content-head">操作提示</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <p>登录后才可以回复</p>
+                <p>点击楼层数字，可以回复此楼</p>
+                <p>插入代码请点击编辑框上方倒数第二个按钮, 或者 alt+c 快速插入代码编辑块</p>
+                <p>如果需要在已经插入的代码块中编辑，alt+enter在代码块中换行，ctrl+enter跳出代码块</p>
+                <p>回复内容至少要两个字</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

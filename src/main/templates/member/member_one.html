@@ -1,0 +1,126 @@
+{% extends "foundation/layout.html" %}
+
+{% load i18n %}
+
+
+{% block pagetitle %}{{ member.username }}{% endblock %}
+
+{% block bodyMiddle %}
+    <div class="member-page-area border-bottom">
+        <div class="padding-left-right-10">
+            <div class="float-left">
+                <p>
+                    <span class="memberinfo-left">{% trans 'username' %}:</span>
+                    <span class="memberinfo-right">{{ this_member.username }}</span>
+                </p>
+                <p>
+                    <span class="memberinfo-left">{% trans 'join time' %}:</span>
+                    <span class="memberinfo-right">{{ this_member.regist_time|date }}</span>
+                </p>
+                <p>
+                    <span class="memberinfo-left">{% trans 'honor' %}:</span>
+                    <span class="memberinfo-right">{{ this_member.honor }}</span>
+                </p>
+                <p>
+                    <span class="memberinfo-left">{% trans 'topic amount' %}:</span>
+                    <span class="memberinfo-right">{{ this_member.post_amount }}</span>
+                </p>
+            </div>
+            <div class="float-right">
+                <div>
+                    <img src="{{ avatar_url.prefix }}{{ this_member.email|to_md5 }}?s=68&d={{ avatar_url.default }}" width="68" heigth=68 alt="{{ this_member.username }}" class="overflow-hidden"/>
+                </div>
+                {% if is_self %}
+                    <br/>
+                    <div>
+                        <a href="{% url changepassword username=this_member.username token=this_member.token %}">{% trans 'Change password' %}</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="clear-both"></div>
+        </div>
+    </div>
+    
+    
+    {% if topics %}
+        <div class="member-page-area">
+            <div class="padding-left-right-10">
+                <p class="large-info-text">{{ this_member.post_amount }} 篇发表的帖子 <a href="{% url memberposts username=this_member.username %}">完整查看</a></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Title' %}</td>
+                            <td>{% trans 'Replies' %}</td>
+                            <td>{% trans 'Likes' %}</td>
+                            <td>{% trans 'Post time' %}</td>
+                        </tr>
+                    </thead>
+                    {% for t in topics %}
+                        <tr>
+                            <td><a href="{% url viewtopic topic_id=t.id %}">{{ t.title|truncatechinese:22 }}</a></td>
+                            <td>{{ t.reply_amount }}</td>
+                            <td>{{ t.likes_amount }}</td>
+                            <td><span _relative_time="{{ t.post_time|date:'U' }}">{{ t.post_time|date }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
+    
+    
+    {% if topics_like %}
+        <div class="member-page-area">
+            <div class="padding-left-right-10">
+                <p class="large-info-text">{{ this_member.likes_amount }} 篇喜欢的帖子 <a href="{% url memberlikes username=this_member.username %}">完整查看</a></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Title' %}</td>
+                            <td>{% trans 'Replies' %}</td>
+                            <td>{% trans 'Likes' %}</td>
+                            <td>{% trans 'Post time' %}</td>
+                        </tr>
+                    </thead>
+                    {% for t in topics_like %}
+                        <tr>
+                            <td><a href="{% url viewtopic topic_id=t.id %}">{{ t.title|truncatechinese:22 }}</a></td>
+                            <td>{{ t.reply_amount }}</td>
+                            <td>{{ t.likes_amount }}</td>
+                            <td><span _relative_time="{{ t.post_time|date:'U' }}">{{ t.post_time|date }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if replied_topics %}
+        <div class="member-page-area">
+            <div class="padding-left-right-10">
+                <p class="large-info-text">参与讨论的帖子 <a href="{% url memberreplies username=this_member.username %}">完整查看</a></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Title' %}</td>
+                            <td>{% trans 'Replies' %}</td>
+                            <td>{% trans 'Likes' %}</td>
+                            <td>{% trans 'Post time' %}</td>
+                        </tr>
+                    </thead>
+                    {% for t in replied_topics %}
+                        <tr>
+                            <td><a href="{% url viewtopic topic_id=t.id %}">{{ t.title|truncatechinese:22 }}</a></td>
+                            <td>{{ t.reply_amount }}</td>
+                            <td>{{ t.likes_amount }}</td>
+                            <td><span _relative_time="{{ t.post_time|date:'U' }}">{{ t.post_time|date }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "foundation/layout.html" %}
+
+{% load i18n %}
+
+{% block pagetitle %}{% trans "regist" %}{% endblock %}
+
+{% block bodyMiddle %}
+    <div id="registerArea">
+        <div class="alert alert-error" id="registerErrorMsg" {% if not form_msg %}style="display: none;"{% endif %}>
+            <a class="close">x</a>
+            <strong>{{ form_msg }}</strong>
+        </div>
+    
+        <form action="#" method="post" id="registerForm" class="form-horizontal">{% csrf_token %}
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Username' %}</label>
+                <div class="controls">
+                    <input type="text" class="input-large" name="username" value="{{ username_value }}" placeholder="您的用户名，可以使用中文"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Email' %}</label>
+                <div class="controls">
+                    <input type="text" class="input-large" name="email" value="{{ email_value }}" placeholder="{% trans 'Your email address' %}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'password' %}</label>
+                <div class="controls">
+                    <input type="Password" class="input-large" name="password" placeholder="{% trans 'At least 4 characters' %}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Password Again' %}</label>
+                <div class="controls">
+                    <input type="password" class="input-large" name="password2"/>
+                </div>
+            </div>
+            <br/>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success btn-large">{% trans 'regist' %}</button>
+            </div>
+        </fieldset>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block bodyRight %}
+    <div class="item-box">
+        <p class="item-content-head">{% trans 'Welcome' %}</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <p>这是一个开放，自由的社区</p>
+                <br/>
+                <p>{% trans 'Already have an account' %}?</p>
+                <a href="{% url login %}">
+                    <button class="btn btn-info">{% trans 'login' %}</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

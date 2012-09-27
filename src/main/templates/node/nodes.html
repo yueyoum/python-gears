@@ -1,0 +1,25 @@
+{% extends "foundation/layout.html" %}
+
+{% block pagetitle %}
+    节点
+{% endblock %}
+
+{% block bodyMiddle %}
+    <div id="nodeInfo">
+        {% for c in categories %}
+            <div class="node-category">
+                <h3>{{ c.name }}</h3>
+                <div class="node-nodes">
+                    {% for n in c.nodes %}
+                        <span>
+                            <a href="{% url viewnode node_name=n.name %}">
+                                {{ n.name }}
+                            </a>
+                            ({{ n.topic_amount }})
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

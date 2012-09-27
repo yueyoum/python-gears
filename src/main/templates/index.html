@@ -1,0 +1,85 @@
+{% extends "display_topics.html" %}
+
+{% load i18n %}
+
+{% block pagetitle %}{% trans 'Home' %}{% endblock %}
+
+{% block bodyMiddle %}
+    {% if notify %}
+        <div id="eventDiv">
+            <div class="padding-left-right-10">
+                <h3>{% trans 'Your new events' %}</h3>
+                <ul class="nav">
+                    {% for n in notify %}
+                        <li id="notify{{ n.id }}">
+                            <div class="float-left">
+                                <a href="/member/{{ n.who }}" target="_blank">{{ n.who }}</a>
+                                {% if n.at %}
+                                    {% if n.noti_type == 1 %}
+                                        在帖子 <a href="/topic/{{ n.at.id }}" target="_blank" _remove_notify="{{ n.id }}">{{ n.at.title|truncatechinese:22 }}</a> 中 <span>{{ n.noti_chinese }}</span>
+                                    {% else %}
+                                        <span>{{ n.noti_chinese }}</span>
+                                        你的帖子 <a href="/topic/{{ n.at.id }}" target="_blank" _remove_notify="{{ n.id }}">{{ n.at.title|truncatechinese:22 }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    {{ n.noti_chinses }}
+                                {% endif %}
+                            </div>
+                            <div class="float-right small-text">
+                                <span _relative_time="{{ n.time|date:'U' }}">{{ n.time|date }}</span>
+                                <a href="#"><span class="icon-remove" _remove_notify="{{ n.id }}"></span></a>
+                            </div>
+                            <div class="clear-both"></div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    
+    {{ block.super }}
+    {% csrf_token %}
+{% endblock %}
+
+
+{% block bodyRight %}
+    {% if notice %}
+        <div class="item-box">
+            <p class="item-content-head">{% trans 'Notice' %}</p>
+            <div class="item-content">
+                <div class="item-content-body">
+                    {{ notice }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {{ block.super }}
+    <div class="item-box">
+        <p class="item-content-head">{% trans 'Web statistics' %}</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <P>{% trans 'Nodes' %}: {{ statistics.nodes }}</P>
+                <P>{% trans 'Members' %}: {{ statistics.members }}</P>
+                <P>{% trans 'Topics' %}: {{ statistics.topics }}</P>
+                <P>{% trans 'Replies' %}: {{ statistics.replies }}</P>
+            </div>
+        </div>
+    </div>
+    
+    {% if friendlinks %}
+        <div class="item-box">
+            <p class="item-content-head">{% trans 'Friend Links' %}</p>
+            <div class="item-content">
+                <div class="item-content-body">
+                    <ul class="nav">
+                        {% for f in friendlinks %}
+                            <li>
+                                <a href="{{ f.url }}" target="_blank">{{ f.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

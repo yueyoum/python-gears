@@ -1,0 +1,56 @@
+{% extends "display_topics.html" %}
+
+{% block pagetitle %}{{ node.name }}{% endblock %}
+
+{% block bodyRight %}
+    <div class="item-box">
+        <p class="item-content-head">节点信息</p>
+        <div class="item-content">
+            <div class="item-content-body">
+                <p><span class="fade-text">名称</span>: {{ node.name }}</p>
+                <p><span class="fade-text">帖子数量</span>: {{ node.topic_amount }}</p>
+                <p><span class="fade-text">成员数量</span>: {{ node.member_amount }}</p>
+                <p><span class="fade-text">描述</span>: {{ node.description }}</p>
+                <hr/>
+                
+                {% if member %}
+                    <div class="float-left">
+                        {% if has_joined %}
+                            <button class="btn btn-warning" id="memberNodeBtn" _action_value="0" _node_name="{{ node.name }}">退出</button>
+                        {% else %}
+                            <button class="btn btn-success" id="memberNodeBtn" _action_value="1" _node_name="{{ node.name }}">加入</button>
+                        {% endif %}
+                    </div>
+                    <div class="float-right">
+                        <a href="{% url newpost %}?node={{ node.name }}">
+                            <button class="btn btn-primary">发帖</button>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="float-left">
+                        <button class="btn btn-success" onclick="show_login_alert_node()" _action_value="1" _node_name="{{ node.name }}">加入</button>
+                    </div>
+                    <div class="float-right">
+                        <button class="btn btn-primary" onclick="show_login_alert_node()">发帖</button>
+                    </div>
+                {% endif %}
+                
+                <div class="clear-both"></div>
+                
+                <div class="alert alert-warning" id="memberNodeConfirm" style="display: none;">
+                    <a class="close">x</a>
+                    <p>
+                        确定要退出此节点吗？ <a href="#" id="memberNodeConfirmYes">确定</a> <a href="#" id="memberNodeConfirmCancel">取消</a>
+                    </p>
+                </div>
+                <div class="alert alert-warning" id="showLoginAlertNode" style="display: none;">
+                    <a class="close">x</a>
+                    <p>你还没有登录. <a href="{% url login %}?next={% url viewnode node_name=node.name %}">登录</a></p>
+                    <p>还没有帐号? <a href="{% url register %}">注册</a></p>
+                </div>
+                {% csrf_token %}
+            </div>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock %}

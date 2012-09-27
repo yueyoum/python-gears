@@ -1,0 +1,229 @@
+{% extends "foundation/foundation.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% block pagetitle %}{% endblock %} | Python-Gears 中文社区
+{% endblock %}
+
+{% block nav %}
+<div id="nav">
+    <div class="navbar">
+        <div class="navbar-inner navbar-custom">
+            <div class="container">
+                <span class="brand">Python-Gears</span>
+                <ul class="nav">
+                    <li>
+                        <a href="{% url index %}">{% trans 'Home' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url nodes %}">{% trans 'Nodes' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url members %}">{% trans 'Members' %}</a>
+                    </li>
+                </ul>
+                <ul class="nav pull-right">
+                    {% if member %}
+                        <li>
+                            <a href="{% url viewmember username=member.username %}">{{ member.username }}</a>
+                        </li>
+                        <li>
+                            <a href="#" id="logOut">{% trans 'Logout' %}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url login %}?next={{ login_next }}">{% trans 'Login' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url register %}">{% trans 'Register' %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block body %}
+<div id="bodyMain">
+    <div id="bodyLeft">
+        <div class="padding-left-right-10">
+        {% if member %}
+            <div id="bodyLeftHead">
+                <div class="float-left">
+                    <img src="{{ avatar_url.prefix }}{{ member.email|to_md5 }}?s=48&d={{ avatar_url.default }}" width="48" height="48" alt="{{ member.username }}" class="overflow-hidden"/>
+                </div>
+                <div class="float-left">
+                    <p><a href="{% url viewmember username=member.username %}">{{ member.username }}</a></p>
+                    <p>{{ member.honor }}</p>
+                </div>
+                <div class="clear-both"></div>
+            </div>
+            <div id="bodyLeftListItems">
+                <ul class="nav">
+                    <li>
+                        <a href="{% url myconcern %}">{% trans 'Concerned news' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url memberposts username=member.username %}">
+                            <div class="float-left">
+                                {% trans 'My topics' %}
+                            </div>
+                            <div class="float-right body-left-amount-num">
+                                {{ member.post_amount }}
+                            </div>
+                            <div class="clear-both"></div>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="{% url memberlikes username=member.username %}">
+                            <div class="float-left">
+                                {% trans 'My likes' %}
+                            </div>
+                            <div class="float-right body-left-amount-num">
+                                {{ member.likes_amount }}
+                            </div>
+                            <div class="clear-both"></div>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="{% url memberreplies username=member.username %}">
+                            {% trans 'My replied topics' %}
+                        </a>
+                    </li>
+                    <li><hr/></li>
+                    <li>
+                        <a href="{% url newpost %}">
+                            <div class="float-left">
+                                {% trans 'New post' %}
+                            </div>
+                            <div class="float-right">
+                                <i class="icon-plus"></i>
+                            </div>
+                            <div class="clear-both"></div>
+                        </a>
+                    </li>
+                    <li><hr/></li>
+                </ul>
+            </div>
+        {% else %}
+            <p>{% trans 'You are not logged yet' %}</p>
+            <p><a href="{% url login %}?next={{ login_next }}">{% trans 'Login' %}</a></p>
+            <p>
+                {% trans 'No account?' %}, <br/>
+                <a href="{% url register %}">{% trans 'Register' %}</a>
+            </p>
+            <hr/>
+        {% endif %}
+        
+        <ul class="nav">
+            {% for n in node_items %}
+                <li>
+                    <a href="{% url viewnode node_name=n.name %}">
+                        <div class="float-left">
+                            {{ n.name }}
+                        </div>
+                        <div class="float-right body-left-amount-num">
+                            {{ n.topic_amount }}
+                        </div>
+                        <div class="clear-both"></div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+    
+    <div id="bodyMiddle">
+        {% block bodyMiddle %}
+        {% endblock %}
+    </div>
+    
+    <div id="bodyRight">
+        {% block bodyRight %}
+            {% if important_topics %}
+                <div class="item-box">
+                    <p class="item-content-head">{% trans 'Important topics' %}</p>
+                    <div class="item-content">
+                        <div class="item-content-body">
+                            <ul class="nav">
+                                {% for i in important_topics %}
+                                    <li>
+                                        <a href="{% url viewtopic topic_id=i.id %}">{{ i.title|truncatechinese }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="item-box">
+                <p class="item-content-head">{% trans 'Hot topics' %}</p>
+                <div class="item-content">
+                    <div class="item-content-body">
+                        <ul class="nav">
+                            {% for i in hot_topics %}
+                                <li>
+                                    <a href="{% url viewtopic topic_id=i.id %}">{{ i.title|truncatechinese }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            {% if welcomed_topics %}
+                <div class="item-box">
+                    <p class="item-content-head">{% trans 'Welcomed topics' %}</p>
+                    <div class="item-content">
+                        <div class="item-content-body">
+                            <ul class="nav">
+                                {% for i in welcomed_topics %}
+                                    <li>
+                                        <a href="{% url viewtopic topic_id=i.id %}">{{ i.title|truncatechinese }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+    <div class="clear-both"></div>
+</div>
+{% endblock %}
+
+
+
+{% block footer %}
+    <div id="footer">
+            <h2>Python Gears</h2>
+        <div class="footer-info">
+            <p>
+                欢迎来到Python社区，这里不只关注于Python，还有各种开源技术. <a href="https://bitbucket.org/my_sting/python-gears/overview" target="_blank">bitbucket</a>
+            </p>
+            <p>
+                社区构建于 
+                <a href="http://python.org/" target="_blank">Python</a>,
+                <a href="https://www.djangoproject.com/" target="_blank">Django</a>,
+                <a href="http://www.mysql.com/" target="_blank">Mysql</a>,
+                <a href="http://memcached.org/" target="_blank">Memcached</a>,
+                <a href="http://projects.unbit.it/uwsgi/" target="_blank">uWSGI</a>,
+                <a href="http://wiki.nginx.org/Main" target="_blank">Nginx</a>,
+                <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Bootstrap</a>,
+                <a href="http://jquery.com/" target="_blank">jQuery</a>
+            </p>
+            <p>
+                Gmail: python.gears#gmail.com | 新浪微博: python_gears
+            </p>
+        </div>
+    </div>
+{% endblock %}

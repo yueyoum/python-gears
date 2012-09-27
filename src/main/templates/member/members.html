@@ -1,0 +1,46 @@
+{% extends "foundation/layout.html" %}
+
+{% block pagetitle %}成员列表{% endblock %}
+
+{% block bodyMiddle %}
+    <div class="padding-left-right-10">
+        <h2>
+            {{ members_amount }} 人已加入社区
+            {% if not member %}
+                | 我也要 <a href="{% url register %}"><button class="btn btn-success">加入</button></a>
+            {% endif %}
+        </h2>
+    </div>
+    <div class="member-area">
+        <div class="padding-left-right-10">
+            <h3>社区达人</h3>
+            <ul>
+                {% for m in hot_members %}
+                    <li>
+                        <div>
+                            <img src="{{ avatar_url.prefix }}{{ m.email|to_md5 }}?s=48&d={{ avatar_url.default }}" width="48" height="48" alt="{{ m.username }}" class="overflow-hidden"/>
+                            <a href="/member/{{ m.username }}/"><span>{{ m.username }}</span></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            <div class="clear-both"></div>
+            </ul>
+        </div>
+    </div>
+    <div class="member-area">
+        <div class="padding-left-right-10">
+            <h3>社区新人</h3>
+            <ul>
+                {% for m in new_members %}
+                    <li>
+                        <div>
+                            <img src="{{ avatar_url.prefix }}{{ m.email|to_md5 }}?s=48&d={{ avatar_url.default }}" width="48" height="48" alt="{{ m.username }}" class="overflow-hidden"/>
+                            <a href="/member/{{ m.username }}/"><span>{{ m.username }}</span></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            <div class="clear-both"></div>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

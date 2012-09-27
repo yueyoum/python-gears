@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Language" content="zh-CN" />
+        <link rel="shoutcut icon" type="image/x-icon" href="{{MEDIA_URL  }}/static/img/favicon.ico" />
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        <meta name="Keywords" content="python, linux, django, tornado, web, 开源, 社区, 论坛" />
+        
+        <link type="text/css" href="{{ MEDIA_URL }}/static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+        <link type="text/css" href="{{ MEDIA_URL }}/static/css/style.css" rel="stylesheet" media="screen" />
+        {% block css %}{% endblock %}
+        
+        <script type="text/javascript" src="{{ MEDIA_URL }}/static/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}/static/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}/static/js/pythoncn.js"></script>
+        {% block js %}{% endblock %}
+    </head>
+    
+    <body>
+        <div id="bodyWrap">
+            {% block nav %}{% endblock %}
+            {% block body %}{% endblock %}
+            {% block footer %}{% endblock %}
+            {% block footerjs %}{% endblock %}
+        </div>
+    </body>
+</html>

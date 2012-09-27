@@ -1,0 +1,84 @@
+{% extends "foundation/layout.html" %}
+
+{% load i18n %}
+
+
+{% block bodyMiddle %}
+    {% if topics %}
+        {% for t in topics %}
+            <div class="index-topic-item">
+                <div class="padding-left-right-10">
+                    <div class="index-topic-avatar">
+                        <a href="{% url viewmember username=t.posted_by.username %}">
+                            <img src="{{ avatar_url.prefix }}{{ t.posted_by.email|to_md5 }}?s=48&d={{ avatar_url.default }}" width="48" height="48" alt="{{ t.posted_by.username }}"/>
+                        </a>
+                    </div>
+                    <div class="index-topic-body">
+                        <h3><a href="{% url viewtopic topic_id=t.id %}">{{ t.title|truncatechinese:32 }}</a></h3>
+                        <div class="fade-text small-text index-topic-body-info">
+                            <div>
+                                <a href="{% url viewmember username=t.posted_by.username %}">{{ t.posted_by.username }}</a>
+                                <span _relative_time="{{ t.post_time|date:'U' }}">{{ t.post_time|date }}</span>|
+                                <span>{{ t.likes_amount }} {% trans 'likes' %}</span>|
+                                <span><a href="{% url viewnode node_name=t.node.name %}">{{ t.node.name }}</a></span>
+                            </div>
+                            {% if t.has_reply %}
+                                <div>
+                                    {% trans 'latest reply' %} :
+                                    <span><a href="{% url viewmember username=t.last_reply_member.username %}">{{ t.last_reply_member.username }}</a></span>
+                                    <span _relative_time="{{ t.last_reply_time|date:'U' }}">{{ t.last_reply_time|date }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="index-topic-badge">
+                        <div>
+                            <span class="badge">
+                                {{ t.reply_amount }}
+                            </span>
+                        </div>
+                        {% if editable %}
+                        <div class="index-topic-edit">
+                            <a href="{% url topicedit topic_id=t.id %}">{% trans 'Edit' %}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="clear-both"></div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="pagination">
+            <ul>
+                {% if has_pre %}
+                    <li><a href="{{ pre_link }}">
+                {% else %}
+                    <li class="disabled"><a href="#">
+                {% endif %}
+                    {% trans 'Pre page' %}</a></li>
+                    
+                {% for p in pages %}
+                    {% if p.disable %}
+                        <li class="disabled"><a href="#">{{ p.page }}</a></li>
+                    {% else %}
+                        {% if p.active %}
+                            <li class="active"><a href="#">{{ p.page }}</a></li>
+                        {% else %}
+                            <li><a href="{{ p.link }}">{{ p.page }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if has_next %}
+                    <li><a href="{{ next_link }}">
+                {% else %}
+                    <li class="disabled"><a href="#">
+                {% endif %}
+                    {% trans 'Next page' %}</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="text-large text-center">
+            {% trans 'No topic yet' %}
+        </div>
+    {% endif %}
+{% endblock %}
