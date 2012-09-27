@@ -15,18 +15,20 @@ Project deployed with **Virtualenv**.
 ### How to initial a NEW server for python-gears:
 
 1, apt-get update && apt-get upgrade
+
 2, add a non root user (optional)
 
-    ```bash
-    mkdir -p /home/yueyoum
-    groupadd yueyoum
-    useradd yueyoum -d /home/yueyoum -g yueyoum -s /bin/bash
-    passwd yueyoum
-    usermod -a -G www-data yueyoum
-    usermod -a -G sudo yueyoum
-    ```
+```bash
+mkdir -p /home/yueyoum
+groupadd yueyoum
+useradd yueyoum -d /home/yueyoum -g yueyoum -s /bin/bash
+passwd yueyoum
+usermod -a -G www-data yueyoum
+usermod -a -G sudo yueyoum
+```
 
 3, apt-get install build-essential
+
 4, apt-get install mysql-server
 
    _ubuntu 12.04 will install mysql 5.5_
@@ -34,13 +36,10 @@ Project deployed with **Virtualenv**.
 5, vim /etc/mysql/my.cnf
 
     add the following in [client]
-
         default-character-set = utf8
 
     add the following in [mysqld]
-
         default-storage-engine = InnoDB
-
         character-set-server = utf8
         
 
@@ -49,13 +48,13 @@ Project deployed with **Virtualenv**.
 
 7, install requirments
 
-    ```bash
-    apt-get install libmysqld-dev
-    apt-get install python-dev
-    apt-get install memcached
-    apt-get install nginx
-    apt-get install python-virtualenv
-    ```
+```bash
+apt-get install libmysqld-dev
+apt-get install python-dev
+apt-get install memcached
+apt-get install nginx
+apt-get install python-virtualenv
+```
 
 8, deploy 
 
